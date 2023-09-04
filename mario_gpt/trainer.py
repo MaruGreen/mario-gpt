@@ -1,12 +1,9 @@
 import os
 from dataclasses import asdict, dataclass
 from typing import Any, Optional, Tuple
-
 import numpy as np
 import torch
 
-# import torch.nn.functional as F
-# from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss # noqa
 from accelerate import Accelerator
 from PIL import ImageDraw
 from torch.nn import CrossEntropyLoss  # noqa
@@ -21,28 +18,24 @@ from mario_gpt.lm import BaseMarioLM, MarioLM
 
 @dataclass
 class TrainingConfig:
-    gradient_accumulation_steps: int = 1
-    mixed_precision: str = (
-        "no"  # `no` for float32, `fp16` for automatic mixed precision
-    )
-    output_dir: str = (
-        "Mario-GPT2-700-context-length"  # the model name locally and on the HF Hub
-    )
-    learning_rate: float = 5e-4
-    epsilon: float = 1e-9
-    lr_warmup_steps: int = 1000
-    batch_size: int = 4
-    total_steps: int = 50000
-    mask_proportion: float = 0.0
-    eval_iteration: int = 1000
-    save_iteration: int = 5000
+    gradient_accumulation_steps = 1
+    mixed_precision = 'no'
+    output_dir = 'Speed-GPT2-v3'  # the model name locally and on the HF Hub
+    learning_rate = 5e-4
+    epsilon = 1e-9
+    lr_warmup_steps = 1000
+    batch_size = 4
+    total_steps = 50000
+    mask_proportion = 0.0
+    eval_iteration = 1000
+    save_iteration = 5000
 
     def pretty_print(self):
         print("================== Training Config ==================")
         d = asdict(self)
         for k in d:
             print(f"{k} -- {d[k]}")
-        print("================== MarioLM ==================")
+        print("================== Speed GPT ==================")
 
 
 class MarioGPTTrainer:
