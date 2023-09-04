@@ -41,7 +41,7 @@ class TrainingConfig:
 class MarioGPTTrainer:
     def __init__(
         self,
-        mario_lm: BaseMarioLM,
+        mario_lm,
         train_dataset: MarioDataset,
         config: Optional[TrainingConfig] = None,
         optimizer: Optional[Optimizer] = None,
