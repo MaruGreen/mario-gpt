@@ -201,6 +201,8 @@ class GPTSampler:
                 # if we pass in a single seed vector, then we repeat for each prompt
                 # Otherwise, we treat inputs as separate seed-prompt pairs
                 out_tensor = out_tensor.view(1, -1).repeat(len(prompts), 1)
+
+            # 提示词编码器
             if encoder_hidden_states is None:
                 if prompts is not None:
                     encoder_hidden_states = torch.stack(
@@ -226,6 +228,8 @@ class GPTSampler:
                 bar = np.arange(num_steps)
             else:
                 bar = tqdm(np.arange(num_steps))
+
+            # 主网络
             with torch.no_grad():
                 for _ in bar:
                     inp = out_tensor * 1
@@ -246,6 +250,8 @@ class GPTSampler:
                         )
             if self.use_tqdm:
                 bar.close()
+
+        # 封装输出格式
         sample_out = SampleOutput.from_level_predictions(
             out_tensor,
             out_tensor[:, -num_steps:],
