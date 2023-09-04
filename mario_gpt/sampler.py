@@ -227,7 +227,7 @@ class GPTSampler:
             else:
                 bar = tqdm(np.arange(num_steps))
             with torch.no_grad():
-                for i in bar:
+                for _ in bar:
                     inp = out_tensor * 1
                     if len(out_tensor.shape) > 0 and out_tensor.shape[-1] > context_len:
                         diff = inp.shape[-1] % 14  # height of mario level
