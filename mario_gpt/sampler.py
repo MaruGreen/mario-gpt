@@ -85,22 +85,16 @@ class SampleOutput:
         prompter: Optional[Prompter] = None,
     ) -> Union[SampleOutput, List[SampleOutput]]:
         level_tensor = trim_level(level).squeeze().detach().cpu()
-        sample_predictions_tensor = (
-            trim_level(sample_predictions).squeeze().detach().cpu()
-        )
+        sample_predictions_tensor = trim_level(sample_predictions).squeeze().detach().cpu()
 
         if len(level_tensor.shape) == 1:
-            return SampleOutput.create(
-                level_tensor, sample_predictions_tensor, tokenizer, prompter
-            )
+            return SampleOutput.create(level_tensor, sample_predictions_tensor, tokenizer, prompter)
 
         out = []
         for _level_tensor, _sample_predictions_tensor in zip(
             level_tensor, sample_predictions_tensor
         ):
-            sample_output = SampleOutput.create(
-                _level_tensor, _sample_predictions_tensor, tokenizer, prompter
-            )
+            sample_output = SampleOutput.create(_level_tensor, _sample_predictions_tensor, tokenizer, prompter)
             out.append(sample_output)
         return out
 
