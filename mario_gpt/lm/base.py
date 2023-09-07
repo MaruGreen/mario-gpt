@@ -24,9 +24,7 @@ class BaseMarioLM(metaclass=abc.ABCMeta):
         lm_kwargs: Dict[str, Any] = {},
         tokenizer_kwargs: Dict[str, Any] = {},
     ):
-        self.load_pretrained(
-            lm_path, tokenizer_path, lm, tokenizer, lm_kwargs, tokenizer_kwargs
-        )
+        self.load_pretrained(lm_path, tokenizer_path, lm, tokenizer, lm_kwargs, tokenizer_kwargs)
         self.context_len = context_len
 
     def train(self):
@@ -45,19 +43,16 @@ class BaseMarioLM(metaclass=abc.ABCMeta):
 
     def save_model(self, checkpoint_path: str, it: int):
         self.lm.save_pretrained(os.path.join(checkpoint_path, f"iteration_{it}"))
+        self.tokenizer.save_pretrained(os.path.join(checkpoint_path, f"iteration_{it}"))
 
     @abc.abstractmethod
-    def load_pretrained_lm(
-        self, path: str, lm_kwargs: Dict[str, Any]
-    ) -> PreTrainedModel:
+    def load_pretrained_lm(self, path: str, lm_kwargs: Dict[str, Any]) -> PreTrainedModel:
         """
         Model to be used in level tile prediction
         """
 
     @abc.abstractmethod
-    def load_pretrained_tokenizer(
-        self, path: str, tokenizer_kwargs: Dict[str, Any]
-    ) -> PreTrainedTokenizer:
+    def load_pretrained_tokenizer(self, path: str, tokenizer_kwargs: Dict[str, Any]) -> PreTrainedTokenizer:
         """
         Tokenizer to be used to read / decode levels
         """
@@ -83,9 +78,7 @@ class BaseMarioLM(metaclass=abc.ABCMeta):
 
         if tokenizer is None:
             if tokenizer_path is None:
-                tokenizer_path = self.PRETRAINED_LM_PATH
+                tokenizer_path = self.BASE_TOKENIZER_PATH
 
             print(f"Using {tokenizer_path} tokenizer")
-            self.tokenizer = self.load_pretrained_tokenizer(
-                tokenizer_path, tokenizer_kwargs
-            )
+            self.tokenizer = self.load_pretrained_tokenizer(tokenizer_path, tokenizer_kwargs)
